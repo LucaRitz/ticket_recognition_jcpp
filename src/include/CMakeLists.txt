@@ -1,0 +1,2 @@
+target_sources(ticket_recognition_jcpp PUBLIC
+        com_bfh_ticket_Cti.h)

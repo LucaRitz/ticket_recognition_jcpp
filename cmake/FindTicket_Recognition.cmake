@@ -1,0 +1,1 @@
+include("${Ticket_Recognition_DIR}/TicketRecognitionConfig.cmake")
