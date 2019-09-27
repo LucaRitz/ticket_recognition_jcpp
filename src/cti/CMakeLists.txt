@@ -1,2 +1,4 @@
-target_sources(ticket_recognition_jcpp PRIVATE
-        com_bfh_ticket_Cti.cpp)
+target_sources(ticket_recognition_jcpp PUBLIC
+        com_bfh_ticket_Cti.cpp
+        com_bfh_ticket_TicketMatch.cpp
+        com_bfh_ticket_Matcher.cpp)

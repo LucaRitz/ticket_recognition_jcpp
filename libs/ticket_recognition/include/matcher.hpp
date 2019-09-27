@@ -1,18 +1,30 @@
 #pragma once
 
 #include "dllmacro.h"
+#include <vector>
+#include <optional>
+
+using std::vector;
 
 namespace cti {
     class TicketMatch;
     class TicketImage;
+    class Ticket;
+    class MatchingAlgorithm;
 
     class EXPORT Matcher {
-            public:
-            Matcher(const Matcher& other) = delete;
-            Matcher(Matcher&& other) = delete;
-            Matcher& operator=(const Matcher& other) = delete;
-            Matcher& operator=(Matcher&& other) = delete;
+    public:
+        Matcher(MatchingAlgorithm& algorithm) : _algorithm(algorithm) {}
+        Matcher(const Matcher&) = delete;
+        Matcher(Matcher&&) = delete;
+        Matcher& operator=(const Matcher&) = delete;
+        Matcher& operator=(Matcher&&) = delete;
 
-            virtual TicketMatch* match(const TicketImage& image) = 0;
+        void train(const Ticket&);
+        void train(const vector<const Ticket*>&);
+        const std::optional<const TicketMatch> match(const TicketImage&) const;
+
+    private:
+        MatchingAlgorithm& _algorithm;
     };
 }

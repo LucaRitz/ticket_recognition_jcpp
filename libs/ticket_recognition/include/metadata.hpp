@@ -8,12 +8,15 @@ using std::string;
 using std::unordered_map;
 
 namespace cti {
+
     class EXPORT Metadata {
-            public:
-            const unordered_map<const string, const string>& getTexts() const {
-                return texts;
-            }
-            private:
-            const unordered_map<const string, const string>& texts;
+    public:
+        Metadata(const unordered_map<string, string> texts) : _texts(texts) {}
+        const unordered_map<string, string>& texts() const {
+            return _texts;
+        }
+
+    private:
+        const unordered_map<string, string> _texts;
     };
 }

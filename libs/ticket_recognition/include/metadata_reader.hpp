@@ -4,16 +4,21 @@
 
 namespace cti {
     class TicketImage;
-    class TicketMetadata;
     class Metadata;
+    class Ticket;
+    class ExtractionAlgorithm;
 
     class EXPORT MetadataReader {
-            public:
-            MetadataReader(const MetadataReader& other) = delete;
-            MetadataReader(MetadataReader&& other) = delete;
-            MetadataReader& operator=(const MetadataReader& other) = delete;
-            MetadataReader& operator=(MetadataReader&& other) = delete;
+    public:
+        MetadataReader(const ExtractionAlgorithm& algorithm) : _algorithm(algorithm) {}
+        MetadataReader(const MetadataReader&) = delete;
+        MetadataReader(MetadataReader&&) = delete;
+        MetadataReader& operator=(const MetadataReader&) = delete;
+        MetadataReader& operator=(MetadataReader&&) = delete;
 
-            virtual const Metadata* const read(const TicketImage& image, const TicketMetadata& metadata) = 0;
+        const Metadata* const read(const Ticket&, TicketImage&);
+
+    private:
+        const ExtractionAlgorithm& _algorithm;
     };
 }

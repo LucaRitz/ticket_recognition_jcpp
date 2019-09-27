@@ -9,19 +9,19 @@ extern "C" {
 #endif
 /*
  * Class:     com_bfh_ticket_Cti
- * Method:    hello
- * Signature: (Ljava/lang/String;)V
+ * Method:    matcher
+ * Signature: (Ljava/lang/String;)Lcom/bfh/ticket/Matcher;
  */
-JNIEXPORT void JNICALL Java_com_bfh_ticket_Cti_hello
+JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Cti_matcher
   (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     com_bfh_ticket_Cti
- * Method:    helloWorld
- * Signature: ()Ljava/lang/String;
+ * Method:    reader
+ * Signature: (Ljava/lang/String;)Lcom/bfh/ticket/MetadataReader;
  */
-JNIEXPORT jstring JNICALL Java_com_bfh_ticket_Cti_helloWorld
-  (JNIEnv *, jobject);
+JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Cti_reader
+  (JNIEnv *, jobject, jstring);
 
 #ifdef __cplusplus
 }
