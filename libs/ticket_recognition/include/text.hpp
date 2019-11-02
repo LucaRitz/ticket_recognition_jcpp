@@ -11,19 +11,14 @@ namespace cti {
 
     class EXPORT Text {
     public:
-        Text(string key, BoundingBox& boundingBox) : _key(std::move(key)), _boundingBox(boundingBox) {}
+        Text(string, BoundingBox&);
         Text(const Text&) = delete;
         Text(Text&&) = delete;
         Text& operator=(const Text&) = delete;
         Text& operator=(Text&&) = delete;
 
-        const string key() const {
-            return _key;
-        }
-
-        const BoundingBox& boundingBox() const {
-            return _boundingBox;
-        }
+        const string key() const;
+        const BoundingBox& boundingBox() const;
 
     private:
         const string _key;

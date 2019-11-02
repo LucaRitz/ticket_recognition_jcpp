@@ -5,19 +5,14 @@
 namespace cti {
     class EXPORT Point {
     public:
-        Point(int x, int y) : _x(x), _y(y) {}
+        Point(int, int);
         Point(const Point&) = delete;
         Point(Point&&) = delete;
         Point& operator=(const Point&) = delete;
         Point& operator=(Point&&) = delete;
 
-        const int x() const {
-            return _x;
-        }
-
-        const int y() const {
-            return _y;
-        }
+        const int x() const;
+        const int y() const;
 
     private:
         const int _x;

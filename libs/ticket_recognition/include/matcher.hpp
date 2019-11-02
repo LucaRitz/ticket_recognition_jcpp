@@ -14,7 +14,7 @@ namespace cti {
 
     class EXPORT Matcher {
     public:
-        Matcher(MatchingAlgorithm& algorithm) : _algorithm(algorithm) {}
+        Matcher(MatchingAlgorithm&);
         Matcher(const Matcher&) = delete;
         Matcher(Matcher&&) = delete;
         Matcher& operator=(const Matcher&) = delete;

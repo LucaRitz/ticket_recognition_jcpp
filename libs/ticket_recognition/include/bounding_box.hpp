@@ -7,19 +7,14 @@ namespace cti {
 
     class EXPORT BoundingBox {
             public:
-            BoundingBox(Point& topLeft, Point& bottomRight) : _topLeft(topLeft), _bottomRight(bottomRight) {}
+            BoundingBox(Point&, Point&);
             BoundingBox(const BoundingBox&) = delete;
             BoundingBox(BoundingBox&&) = delete;
             BoundingBox& operator=(const BoundingBox&) = delete;
             BoundingBox& operator=(BoundingBox&&) = delete;
 
-            const Point& topLeft() const {
-                return _topLeft;
-            }
-
-            const Point& bottomRight() const {
-                return _bottomRight;
-            }
+            const Point& topLeft() const;
+            const Point& bottomRight() const;
 
             private:
             const Point& _topLeft;

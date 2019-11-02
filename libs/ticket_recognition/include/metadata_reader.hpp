@@ -10,7 +10,7 @@ namespace cti {
 
     class EXPORT MetadataReader {
     public:
-        MetadataReader(const ExtractionAlgorithm& algorithm) : _algorithm(algorithm) {}
+        MetadataReader(const ExtractionAlgorithm&);
         MetadataReader(const MetadataReader&) = delete;
         MetadataReader(MetadataReader&&) = delete;
         MetadataReader& operator=(const MetadataReader&) = delete;

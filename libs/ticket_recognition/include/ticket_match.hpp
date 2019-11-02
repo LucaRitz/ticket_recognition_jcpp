@@ -8,15 +8,13 @@ using std::string;
 namespace cti {
     class EXPORT TicketMatch {
     public:
-        TicketMatch(string name) : _name(std::move(name)) {}
-        TicketMatch(const TicketMatch& other) : _name(other._name) {};
-        TicketMatch(TicketMatch&& other) : _name(other._name) {};
+        TicketMatch(string);
+        TicketMatch(const TicketMatch&);
+        TicketMatch(TicketMatch&&);
         TicketMatch& operator=(const TicketMatch& other) = delete;
         TicketMatch& operator=(TicketMatch&&) = delete;
 
-        const string name() const {
-            return _name;
-        }
+        const string name() const;
 
     private:
         const string _name;
