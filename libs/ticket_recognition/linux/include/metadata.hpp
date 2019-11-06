@@ -11,10 +11,7 @@ namespace cti {
 
     class EXPORT Metadata {
     public:
-        Metadata(const unordered_map<string, string>);
+        explicit Metadata(const unordered_map<string, string>);
         const unordered_map<string, string>& texts() const;
-
-    private:
-        const unordered_map<string, string> _texts;
     };
 }

@@ -1,0 +1,10 @@
+# SET COMPOSE_CONVERT_WINDOWS_PATHS=1
+version: '3'
+services:
+  linux_jcpp_build:
+    build:
+      context: './'
+    volumes:
+      - ../../ticket_recognition_jcpp:/usr/local/bin/sources
+      - ../cmake-build-debug-linux:/usr/local/bin/build
+    container_name: linux_jcpp_build

@@ -14,7 +14,7 @@ namespace cti {
 
     class EXPORT Matcher {
     public:
-        Matcher(MatchingAlgorithm&);
+        explicit Matcher(MatchingAlgorithm&);
         Matcher(const Matcher&) = delete;
         Matcher(Matcher&&) = delete;
         Matcher& operator=(const Matcher&) = delete;
@@ -23,8 +23,5 @@ namespace cti {
         void train(const Ticket&);
         void train(const vector<const Ticket*>&);
         const std::optional<const TicketMatch> match(const TicketImage&) const;
-
-    private:
-        MatchingAlgorithm& _algorithm;
     };
 }

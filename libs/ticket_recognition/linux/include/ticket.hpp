@@ -26,11 +26,5 @@ namespace cti {
         const TicketImage& image() const;
         const vector<const Text*>& texts() const;
         const vector<const BoundingBox*>& matchingAreas() const;
-
-    private:
-        const string _name;
-        const TicketImage& _image;
-        const vector<const Text*>& _texts;
-        const vector<const BoundingBox*>& _matchingAreas;
     };
 }
