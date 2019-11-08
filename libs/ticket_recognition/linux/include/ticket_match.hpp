@@ -15,5 +15,8 @@ namespace cti {
         TicketMatch& operator=(TicketMatch&&) = delete;
 
         const string name() const;
+
+    private:
+        const string _name;
     };
 }

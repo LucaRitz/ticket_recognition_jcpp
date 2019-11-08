@@ -20,5 +20,12 @@ namespace cti {
         const int bytesPerPixel() const;
         const int bytesPerLine() const;
         unsigned char *image() const;
+
+    private:
+        int _width;
+        int _height;
+        int _bytes_per_pixel;
+        int _bytes_per_line;
+        unsigned char *_image;
     };
 }

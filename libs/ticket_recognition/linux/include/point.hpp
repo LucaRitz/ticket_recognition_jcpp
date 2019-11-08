@@ -13,5 +13,9 @@ namespace cti {
 
         const int x() const;
         const int y() const;
+
+    private:
+        const int _x;
+        const int _y;
     };
 }

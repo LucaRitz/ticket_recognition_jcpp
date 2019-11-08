@@ -19,6 +19,10 @@ namespace cti {
 
         const string key() const;
         const BoundingBox& boundingBox() const;
+
+    private:
+        const string _key;
+        const BoundingBox& _boundingBox;
     };
 
 }

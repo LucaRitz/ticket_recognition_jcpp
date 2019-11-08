@@ -15,5 +15,9 @@ namespace cti {
 
             const Point& topLeft() const;
             const Point& bottomRight() const;
+
+            private:
+            const Point& _topLeft;
+            const Point& _bottomRight;
     };
 }

@@ -4,6 +4,7 @@
 #include <include/text.hpp>
 #include <include/bounding_box.hpp>
 #include <include/point.hpp>
+#include <include/ticket_image.hpp>
 
 using cti::Ticket;
 using cti::Text;
@@ -17,12 +18,12 @@ using cti::Point;
  */
 JNIEXPORT void JNICALL Java_com_bfh_ticket_Ticket_delete(JNIEnv* env, jobject object, jlong pointer) {
     auto* ticket = reinterpret_cast<Ticket*>(pointer);
-    for (auto* text : ticket->texts()) {
+    for (auto text : ticket->texts()) {
         delete &text->boundingBox().topLeft();
         delete &text->boundingBox().bottomRight();
         delete &text->boundingBox();
         delete text;
     }
-    
+    delete &ticket->texts();
     delete ticket;
 }

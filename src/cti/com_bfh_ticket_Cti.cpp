@@ -4,12 +4,13 @@
 #include <include/matcher.hpp>
 #include <include/metadata_reader.hpp>
 #include <cstring>
-#include <iostream>
 
 using cti::SiftMatchingAlgorithm;
 using cti::SiftExtractionAlgorithm;
 using cti::Matcher;
 using cti::MetadataReader;
+
+#include "com_bfh_ticket_Matcher.h"
 
 JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Cti_matcher
         (JNIEnv * env, jobject object, jstring algorithm) {
