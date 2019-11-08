@@ -8,7 +8,6 @@
 #include <include/point.hpp>
 #include <include/ticket_match.hpp>
 #include <string>
-#include <iostream>
 
 using cti::Matcher;
 using cti::Ticket;
