@@ -2,8 +2,10 @@
 
 #include <include/dllmacro.h>
 #include <vector>
+#include <optional>
 
 using std::vector;
+using std::optional;
 
 namespace cti {
 
@@ -16,6 +18,6 @@ namespace cti {
         virtual void train(const Ticket&) = 0;
         virtual void train(const vector<const Ticket*>&) = 0;
         virtual vector<TicketMatch> execute(const TicketImage&) const = 0;
-        virtual const TicketMatch select(vector<TicketMatch>&) const = 0;
+        virtual const optional<TicketMatch> select(vector<TicketMatch>&) const = 0;
     };
 }

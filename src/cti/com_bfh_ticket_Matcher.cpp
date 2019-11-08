@@ -6,7 +6,9 @@
 #include <include/text.hpp>
 #include <include/bounding_box.hpp>
 #include <include/point.hpp>
+#include <include/ticket_match.hpp>
 #include <string>
+#include <iostream>
 
 using cti::Matcher;
 using cti::Ticket;
@@ -14,6 +16,7 @@ using cti::TicketImage;
 using cti::Text;
 using cti::BoundingBox;
 using cti::Point;
+using cti::TicketMatch;
 
 template <typename T, typename S>
 void convert(JNIEnv* env, jobject list, T(*factory)(JNIEnv*, S&), vector<T>& vector) {
@@ -129,13 +132,48 @@ JNIEXPORT void JNICALL Java_com_bfh_ticket_Matcher_train__JLjava_util_List_2
     matcher->train(*ticketsToLearn);
 }
 
+jobject createOptionalFrom(JNIEnv* env, jobject* value) {
+    jclass javaOptionalClass = env->FindClass("java/util/Optional");
+
+    if (value) {
+        jmethodID ofMethod = env->GetStaticMethodID(javaOptionalClass, "of", "(Ljava/lang/Object;)Ljava/util/Optional;");
+        return env->CallStaticObjectMethod(javaOptionalClass, ofMethod, *value);
+    } else {
+        jmethodID emptyMethod = env->GetStaticMethodID(javaOptionalClass, "empty", "()Ljava/util/Optional;");
+        return env->CallStaticObjectMethod(javaOptionalClass, emptyMethod);
+    }
+}
+
 /*
  * Class:     com_bfh_ticket_Matcher
  * Method:    match
  * Signature: (JLcom/bfh/ticket/TicketImage;)Ljava/util/Optional;
  */
 JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Matcher_match
-        (JNIEnv *, jobject, jlong, jobject);
+        (JNIEnv* env, jobject obj, jlong pointer, jobject javaTicketImage) {
+    jclass javaTicketImageClass = env->FindClass("com/bfh/ticket/TicketImage");
+
+    // Create Ticket image
+    jmethodID imagePathMethod = env->GetMethodID(javaTicketImageClass, "getImagePath", "()Ljava/lang/String;");
+    auto imagePathAsJavaString = (jstring) env->CallObjectMethod(javaTicketImage, imagePathMethod);
+    string imagePath = env->GetStringUTFChars(imagePathAsJavaString, nullptr);
+    const TicketImage ticketImage(imagePath);
+
+    // Do matching
+    auto* matcher = reinterpret_cast<Matcher*>(pointer);
+    std::optional<const TicketMatch> optional = matcher->match(ticketImage);
+
+    // Create TicketMatch
+    if (optional) {
+        jclass javaTicketMatchClass = env->FindClass("com/bfh/ticket/TicketMatch");
+        jmethodID constructor = env->GetMethodID(javaTicketMatchClass, "<init>", "(Ljava/lang/String;)V");
+        jobject javaTicketMatch = env->NewObject(javaTicketMatchClass, constructor,
+                                                env->NewStringUTF(optional.value().name().c_str()));
+        return createOptionalFrom(env, &javaTicketMatch);
+    } else {
+        return createOptionalFrom(env, nullptr);
+    }
+}
 
 /*
  * Class:     com_bfh_ticket_Matcher
