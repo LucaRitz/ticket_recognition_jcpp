@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (JLcom/bfh/ticket/Ticket;Lcom/bfh/ticket/TicketImage;)Lcom/bfh/ticket/Metadata;
  */
 JNIEXPORT jobject JNICALL Java_com_bfh_ticket_MetadataReader_read
-  (JNIEnv *, jobject, jlong, jobject, jobject);
+  (JNIEnv *, jobject, jlong, jlong, jobject);
 
 /*
  * Class:     com_bfh_ticket_MetadataReader

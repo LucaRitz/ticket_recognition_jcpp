@@ -7,7 +7,7 @@ namespace cti {
 
     class EXPORT SiftExtractionAlgorithm : public ExtractionAlgorithm {
     public:
-        void normalize(const Ticket&, TicketImage&) const override;
+        cti::TicketImage* normalize(const Ticket&, TicketImage&) const override;
         Metadata* read(const Ticket&, TicketImage&) const override;
     };
 }

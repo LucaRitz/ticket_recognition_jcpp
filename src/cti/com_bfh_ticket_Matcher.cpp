@@ -91,8 +91,9 @@ const Ticket* ticketFactory(JNIEnv* env, jobject& javaTicket) {
     jmethodID ticketImageMethod = env->GetMethodID(javaTicketClass, "getImage", "()Lcom/bfh/ticket/TicketImage;");
     jobject javaTicketImage = env->CallObjectMethod(javaTicket, ticketImageMethod);
     jclass javaTicketImageClass = env->FindClass("com/bfh/ticket/TicketImage");
-    jmethodID pathMethod = env->GetMethodID(javaTicketImageClass, "getImagePath", "()Ljava/lang/String;");
-    auto pathAsJavaString = (jstring) env->CallObjectMethod(javaTicketImage, pathMethod);
+
+    jfieldID pathField = env->GetFieldID(javaTicketImageClass, "imagePath", "Ljava/lang/String;");
+    auto pathAsJavaString = (jstring) env->GetObjectField(javaTicketImage, pathField);
     string path = env->GetStringUTFChars(pathAsJavaString, nullptr);
     auto* ticketImage = new TicketImage(path);
 
@@ -154,8 +155,8 @@ JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Matcher_match
     jclass javaTicketImageClass = env->FindClass("com/bfh/ticket/TicketImage");
 
     // Create Ticket image
-    jmethodID imagePathMethod = env->GetMethodID(javaTicketImageClass, "getImagePath", "()Ljava/lang/String;");
-    auto imagePathAsJavaString = (jstring) env->CallObjectMethod(javaTicketImage, imagePathMethod);
+    jfieldID pathField = env->GetFieldID(javaTicketImageClass, "imagePath", "Ljava/lang/String;");
+    auto imagePathAsJavaString = (jstring) env->GetObjectField(javaTicketImage, pathField);
     string imagePath = env->GetStringUTFChars(imagePathAsJavaString, nullptr);
     const TicketImage ticketImage(imagePath);
 
@@ -166,9 +167,9 @@ JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Matcher_match
     // Create TicketMatch
     if (optional) {
         jclass javaTicketMatchClass = env->FindClass("com/bfh/ticket/TicketMatch");
-        jmethodID constructor = env->GetMethodID(javaTicketMatchClass, "<init>", "(Ljava/lang/String;)V");
+        jmethodID constructor = env->GetMethodID(javaTicketMatchClass, "<init>", "(J)V");
         jobject javaTicketMatch = env->NewObject(javaTicketMatchClass, constructor,
-                                                env->NewStringUTF(optional.value().name().c_str()));
+                                                 reinterpret_cast<jlong>(&optional.value().ticket()));
         return createOptionalFrom(env, &javaTicketMatch);
     } else {
         return createOptionalFrom(env, nullptr);

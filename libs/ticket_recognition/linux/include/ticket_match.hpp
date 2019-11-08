@@ -1,22 +1,21 @@
 #pragma once
 
 #include "dllmacro.h"
-#include <string>
-
-using std::string;
 
 namespace cti {
+    class Ticket;
+
     class EXPORT TicketMatch {
     public:
-        explicit TicketMatch(string);
+        explicit TicketMatch(const Ticket&);
         TicketMatch(const TicketMatch&);
         TicketMatch(TicketMatch&&);
         TicketMatch& operator=(const TicketMatch& other) = delete;
         TicketMatch& operator=(TicketMatch&&) = delete;
 
-        const string name() const;
+        const Ticket& ticket() const;
 
     private:
-        const string _name;
+        const Ticket& _ticket;
     };
 }

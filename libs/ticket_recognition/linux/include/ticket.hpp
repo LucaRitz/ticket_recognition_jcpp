@@ -22,7 +22,7 @@ namespace cti {
         Ticket& operator=(const Ticket& other) = delete;
         Ticket& operator=(Ticket&& other) = delete;
 
-        const string name();
+        const string name() const;
         const TicketImage& image() const;
         const vector<const Text*>& texts() const;
         const vector<const BoundingBox*>& matchingAreas() const;
