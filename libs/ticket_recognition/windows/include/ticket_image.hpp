@@ -9,7 +9,7 @@ namespace cti {
     class EXPORT TicketImage {
     public:
         explicit TicketImage(const string&);
-        TicketImage(const int, const int, const int, const int, unsigned char*);
+        TicketImage(const int, const int, const int, const size_t, unsigned char*);
         TicketImage(const TicketImage&) = delete;
         TicketImage(TicketImage&&) = delete;
         TicketImage &operator=(const TicketImage&) = delete;
@@ -18,14 +18,14 @@ namespace cti {
         const int width() const;
         const int height() const;
         const int bytesPerPixel() const;
-        const int bytesPerLine() const;
+        const size_t bytesPerLine() const;
         unsigned char *image() const;
 
     private:
         int _width;
         int _height;
         int _bytes_per_pixel;
-        int _bytes_per_line;
-        unsigned char *_image;
+        size_t _bytes_per_line;
+        unsigned char* _image;
     };
 }

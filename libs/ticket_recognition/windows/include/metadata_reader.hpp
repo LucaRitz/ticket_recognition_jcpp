@@ -16,7 +16,7 @@ namespace cti {
         MetadataReader& operator=(const MetadataReader&) = delete;
         MetadataReader& operator=(MetadataReader&&) = delete;
 
-        const Metadata* const read(const Ticket&, TicketImage&);
+        const Metadata* const read(const Ticket&, const TicketImage&);
 
     private:
         const ExtractionAlgorithm& _algorithm;

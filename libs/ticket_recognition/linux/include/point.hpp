@@ -6,8 +6,8 @@ namespace cti {
     class EXPORT Point {
     public:
         Point(int, int);
-        Point(const Point&) = delete;
-        Point(Point&&) = delete;
+        Point(const Point&) = default;
+        Point(Point&&) = default;
         Point& operator=(const Point&) = delete;
         Point& operator=(Point&&) = delete;
 

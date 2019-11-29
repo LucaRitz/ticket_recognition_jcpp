@@ -17,7 +17,7 @@ namespace cti {
     public:
         virtual void train(const Ticket&) = 0;
         virtual void train(const vector<const Ticket*>&) = 0;
-        virtual vector<TicketMatch> execute(const TicketImage&) const = 0;
+        virtual vector<TicketMatch> execute(const TicketImage&) = 0;
         virtual const optional<TicketMatch> select(vector<TicketMatch>&) const = 0;
     };
 }

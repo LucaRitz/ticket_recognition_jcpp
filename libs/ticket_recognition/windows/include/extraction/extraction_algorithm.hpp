@@ -10,7 +10,7 @@ namespace cti {
 
     class EXPORT ExtractionAlgorithm {
     public:
-        virtual cti::TicketImage* normalize(const Ticket&, TicketImage&) const = 0;
+        virtual TicketImage* normalize(const Ticket&, const TicketImage&) const = 0;
         virtual Metadata* read(const Ticket&, TicketImage&) const = 0;
     };
 }

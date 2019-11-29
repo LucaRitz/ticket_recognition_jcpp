@@ -7,8 +7,8 @@ namespace cti {
 
     class EXPORT BoundingBox {
             public:
-            BoundingBox(Point&, Point&);
-            BoundingBox(const BoundingBox&) = delete;
+            BoundingBox(const Point&, const Point&);
+            BoundingBox(const BoundingBox&) = default;
             BoundingBox(BoundingBox&&) = delete;
             BoundingBox& operator=(const BoundingBox&) = delete;
             BoundingBox& operator=(BoundingBox&&) = delete;
