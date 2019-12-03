@@ -53,7 +53,10 @@ const jobject ticketFactory(JNIEnv* env, const Ticket& ticket) {
         env->CallBooleanMethod(javaList, javaListAdd, javaText);
     }
 
-    return env->NewObject(javaTicketClass, javaTicketConstructor, javaName, ticketImage, javaList);
+    jobject javaTicket = env->NewObject(javaTicketClass, javaTicketConstructor, javaName, ticketImage, javaList);
+    jfieldID pointerField = env->GetFieldID(javaTicketClass, "pointer", "J");
+    env->SetLongField(javaTicket, pointerField, reinterpret_cast<jlong>(&ticket));
+    return javaTicket;
 }
 
 /*
