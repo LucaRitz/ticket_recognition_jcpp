@@ -7,6 +7,7 @@
 #include <include/bounding_box.hpp>
 #include <include/point.hpp>
 #include <include/ticket_match.hpp>
+#include <include/exception/cti_exception.hpp>
 #include <string>
 
 using cti::Matcher;
@@ -16,6 +17,7 @@ using cti::Text;
 using cti::BoundingBox;
 using cti::Point;
 using cti::TicketMatch;
+using cti::CtiException;
 
 template <typename T, typename S>
 void convert(JNIEnv* env, jobject list, T(*factory)(JNIEnv*, S&), vector<T>& vector) {
@@ -108,6 +110,11 @@ const Ticket* ticketFactory(JNIEnv* env, jobject& javaTicket) {
     return ticket;
 }
 
+void throwCtiException(JNIEnv* env, const char* message) {
+    jclass javaCtiExceptionClass = env->FindClass("com/bfh/ticket/exception/CtiException");
+    env->ThrowNew(javaCtiExceptionClass, message);
+}
+
 /*
  * Class:     com_bfh_ticket_Matcher
  * Method:    train
@@ -116,7 +123,11 @@ const Ticket* ticketFactory(JNIEnv* env, jobject& javaTicket) {
 JNIEXPORT void JNICALL Java_com_bfh_ticket_Matcher_train__JLcom_bfh_ticket_Ticket_2
 (JNIEnv * env, jobject object, jlong pointer, jobject jTicket) {
     auto* matcher = reinterpret_cast<Matcher*>(pointer);
-    matcher->train(*ticketFactory(env, jTicket));
+    try {
+        matcher->train(*ticketFactory(env, jTicket));
+    } catch(CtiException& exc) {
+        throwCtiException(env, exc.what());
+    }
 }
 
 /*
@@ -128,8 +139,12 @@ JNIEXPORT void JNICALL Java_com_bfh_ticket_Matcher_train__JLjava_util_List_2
 (JNIEnv* env, jobject object, jlong pointer, jobject jList) {
     auto* matcher = reinterpret_cast<Matcher*>(pointer);
     auto* ticketsToLearn = new vector<const Ticket*>;
-    convert(env, jList, ticketFactory, *ticketsToLearn);
-    matcher->train(*ticketsToLearn);
+    try {
+        convert(env, jList, ticketFactory, *ticketsToLearn);
+        matcher->train(*ticketsToLearn);
+    } catch(CtiException& exc) {
+        throwCtiException(env, exc.what());
+    }
 }
 
 jobject createOptionalFrom(JNIEnv* env, jobject* value) {

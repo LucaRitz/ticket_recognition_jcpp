@@ -8,8 +8,8 @@ using std::string;
 namespace cti {
     class EXPORT TicketImage {
     public:
-        explicit TicketImage(const string&);
-        TicketImage(const int, const int, const int, const size_t, unsigned char*);
+        explicit TicketImage(const string&) noexcept(false);
+        TicketImage(const int, const int, const int, const size_t, unsigned char*) noexcept(false);
         TicketImage(const TicketImage&) = delete;
         TicketImage(TicketImage&&) = delete;
         TicketImage &operator=(const TicketImage&) = delete;

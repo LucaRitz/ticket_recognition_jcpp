@@ -14,8 +14,8 @@ namespace cti {
 
     class EXPORT Ticket {
     public:
-        Ticket(string, const TicketImage&, vector<const Text*>&);
-        Ticket(string, const TicketImage&, vector<const Text*>&, vector<const BoundingBox*>&);
+        Ticket(string, const TicketImage&, vector<const Text*>&) noexcept(false);
+        Ticket(string, const TicketImage&, vector<const Text*>&, vector<const BoundingBox*>&) noexcept(false);
 
         Ticket(const Ticket& other) = delete;
         Ticket(Ticket&& other) = delete;
