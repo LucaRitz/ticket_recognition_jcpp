@@ -23,5 +23,6 @@ JNIEXPORT void JNICALL Java_com_bfh_ticket_Ticket_delete(JNIEnv* env, jobject ob
         delete text;
     }
     delete &ticket->texts();
+    delete &ticket->image();
     delete ticket;
 }
