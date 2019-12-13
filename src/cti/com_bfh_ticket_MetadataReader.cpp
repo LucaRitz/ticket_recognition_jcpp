@@ -7,6 +7,7 @@
 #include <include/extraction/extraction_algorithms.hpp>
 #include <include/extraction/extraction_algorithm.hpp>
 #include <include/extraction/extraction_options.hpp>
+#include <include/exception/cti_exception.hpp>
 #include <string.h>
 
 #include "helper.hpp"
@@ -18,7 +19,9 @@ using cti::TicketImage;
 using cti::ExtractionAlgorithms;
 using cti::ExtractionAlgorithm;
 using cti::ExtractionOptions;
+using cti::CtiException;
 using cti::java::getAlgorithmName;
+using cti::java::throwCtiException;
 
 const ExtractionOptions readReaderOptions(JNIEnv* env, jobject& javaOptions) {
     jclass javaExtractionOptionsClass = env->FindClass("com/bfh/ticket/MetadataReaderOptions");
@@ -78,20 +81,26 @@ JNIEXPORT jobject JNICALL Java_com_bfh_ticket_MetadataReader_read
     string imagePath = env->GetStringUTFChars(imagePathAsJavaString, nullptr);
     TicketImage ticketImage(imagePath);
 
-    const Metadata metadata = reader->read(*ticket, ticketImage);
-
     jclass mapClass = env->FindClass("java/util/HashMap");
     jmethodID mapConstructor = env->GetMethodID(mapClass, "<init>", "()V");
     jobject map = env->NewObject(mapClass, mapConstructor);
 
     jmethodID putMethod = env->GetMethodID(mapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
 
-    for (auto const& value : metadata.texts()) {
-        env->CallObjectMethod(map, putMethod, env->NewStringUTF(value.first.c_str()), env->NewStringUTF(value.second.c_str()));
-    }
-
     jclass metadataClass = env->FindClass("com/bfh/ticket/Metadata");
     jmethodID metadataConstructor = env->GetMethodID(metadataClass, "<init>", "(Ljava/util/Map;)V");
+
+    try {
+        Metadata metadata = reader->read(*ticket, ticketImage);
+
+
+        for (auto const& value : metadata.texts()) {
+            env->CallObjectMethod(map, putMethod, env->NewStringUTF(value.first.c_str()), env->NewStringUTF(value.second.c_str()));
+        }
+    } catch(CtiException& exc) {
+        throwCtiException(env, exc.what());
+    }
+
     return env->NewObject(metadataClass, metadataConstructor, map);
 }
 

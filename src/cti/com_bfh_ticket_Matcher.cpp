@@ -27,6 +27,7 @@ using cti::MatchingAlgorithms;
 using cti::MatchingAlgorithm;
 using cti::MatchingOptions;
 using cti::java::getAlgorithmName;
+using cti::java::throwCtiException;
 
 template <typename T, typename S>
 void convert(JNIEnv* env, jobject list, T(*factory)(JNIEnv*, S&), vector<T>& vector) {
@@ -117,11 +118,6 @@ const Ticket* ticketFactory(JNIEnv* env, jobject& javaTicket) {
     jfieldID pointerField = env->GetFieldID(javaTicketClass, "pointer", "J");
     env->SetLongField(javaTicket, pointerField, reinterpret_cast<jlong>(ticket));
     return ticket;
-}
-
-void throwCtiException(JNIEnv* env, const char* message) {
-    jclass javaCtiExceptionClass = env->FindClass("com/bfh/ticket/exception/CtiException");
-    env->ThrowNew(javaCtiExceptionClass, message);
 }
 
 const MatchingOptions readMatcherOptions(JNIEnv* env, jobject& javaOptions) {
