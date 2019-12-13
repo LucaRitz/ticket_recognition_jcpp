@@ -200,6 +200,18 @@ JNIEXPORT void JNICALL Java_com_bfh_ticket_Matcher_train__JLjava_util_List_2
     }
 }
 
+/*
+ * Class:     com_bfh_ticket_Matcher
+ * Method:    untrain
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_com_bfh_ticket_Matcher_untrain
+        (JNIEnv* env, jobject object, jlong pointer, jlong ticketPointer) {
+    auto* matcher = reinterpret_cast<Matcher*>(pointer);
+    auto* ticket = reinterpret_cast<Ticket*>(ticketPointer);
+    matcher->untrain(*ticket);
+}
+
 jobject createOptionalFrom(JNIEnv* env, jobject* value) {
     jclass javaOptionalClass = env->FindClass("java/util/Optional");
 

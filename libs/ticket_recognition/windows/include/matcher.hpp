@@ -38,7 +38,7 @@ namespace cti {
 
         /**
          * Train a single Ticket so that a TicketImage can be matched against it.
-         * Note that this operation may take some time.
+         * Note that this operation may take some time. The Ticket is preprocessed in order to save time when matching.
          * If the Ticket has a name that has already been trained, previous training data is
          * discarded and it is trained again.
          * If multiple Ticket are to be trained, a different overload of this function should be used,
@@ -49,7 +49,7 @@ namespace cti {
 
         /**
          * Train a set of Ticket so that a TicketImage can be matched against them.
-         * Note that this operation may take some time.
+         * Note that this operation may take some time. The Tickets are preprocessed in order to save time when matching.
          * If one of the Tickets has a name that has already been trained, previous training data is
          * discarded and that Ticket is trained again.
          * @param tickets Tickets to be trained.
