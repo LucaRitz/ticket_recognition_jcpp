@@ -7,8 +7,13 @@
 #include <include/bounding_box.hpp>
 #include <include/point.hpp>
 #include <include/ticket_match.hpp>
+#include <include/matching/matching_algorithms.hpp>
+#include <include/matching/matching_algorithm.hpp>
+#include <include/matching/matching_options.hpp>
 #include <include/exception/cti_exception.hpp>
-#include <string>
+#include <string.h>
+
+#include "helper.hpp"
 
 using cti::Matcher;
 using cti::Ticket;
@@ -18,6 +23,10 @@ using cti::BoundingBox;
 using cti::Point;
 using cti::TicketMatch;
 using cti::CtiException;
+using cti::MatchingAlgorithms;
+using cti::MatchingAlgorithm;
+using cti::MatchingOptions;
+using cti::java::getAlgorithmName;
 
 template <typename T, typename S>
 void convert(JNIEnv* env, jobject list, T(*factory)(JNIEnv*, S&), vector<T>& vector) {
@@ -113,6 +122,50 @@ const Ticket* ticketFactory(JNIEnv* env, jobject& javaTicket) {
 void throwCtiException(JNIEnv* env, const char* message) {
     jclass javaCtiExceptionClass = env->FindClass("com/bfh/ticket/exception/CtiException");
     env->ThrowNew(javaCtiExceptionClass, message);
+}
+
+const MatchingOptions readMatcherOptions(JNIEnv* env, jobject& javaOptions) {
+    jclass javaMatcherOptionsClass = env->FindClass("com/bfh/ticket/MatcherOptions");
+    jmethodID javaGetRatioTestThreshold = env->GetMethodID(javaMatcherOptionsClass, "getRatioTestThreshold", "()D");
+    jmethodID javaGetScoreTestThreshold = env->GetMethodID(javaMatcherOptionsClass, "getScoreTestThreshold", "()D");
+    jmethodID javaGetScoreThreshold = env->GetMethodID(javaMatcherOptionsClass, "getScoreThreshold", "()D");
+
+    jdouble javaRatioTestThreshold = env->CallDoubleMethod(javaOptions, javaGetRatioTestThreshold);
+    jdouble javaScoreTestThreshold = env->CallDoubleMethod(javaOptions, javaGetScoreTestThreshold);
+    jdouble javaScoreThreshold = env->CallDoubleMethod(javaOptions, javaGetScoreThreshold);
+
+    auto ratioTestThreshold = static_cast<double>(javaRatioTestThreshold);
+    auto scoreTestThreshold = static_cast<double>(javaScoreTestThreshold);
+    auto scoreThreshold = static_cast<double>(javaScoreThreshold);
+
+    return MatchingOptions(ratioTestThreshold >= 0 ? ratioTestThreshold : 0.7,
+                           scoreTestThreshold >= 0 ? scoreTestThreshold : 0.5,
+                           scoreThreshold >= 0 ? scoreThreshold : 25.0);
+}
+
+/*
+ * Class:     com_bfh_ticket_Matcher
+ * Method:    initialize
+ * Signature: (Lcom/bfh/ticket/Algorithm;Lcom/bfh/ticket/MatcherOptions;)J
+ */
+JNIEXPORT jlong JNICALL Java_com_bfh_ticket_Matcher_initialize
+        (JNIEnv* env, jobject object, jobject javaAlgorithm, jobject javaOptions) {
+    const char* nativeAlgorithmString = getAlgorithmName(env, javaAlgorithm);
+
+    const MatchingOptions options = readMatcherOptions(env, javaOptions);
+    MatchingAlgorithm* matchingAlgorithm = nullptr;
+    if (strcmp("SIFT", nativeAlgorithmString) == 0) {
+        matchingAlgorithm = MatchingAlgorithms::sift(options).release();
+    } else if (strcmp("ORB", nativeAlgorithmString) == 0) {
+        matchingAlgorithm = MatchingAlgorithms::orb(options).release();
+    }
+
+    if (matchingAlgorithm != nullptr) {
+        auto* matcher = new Matcher(*matchingAlgorithm);
+        return (jlong) matcher;
+    }
+
+    return jlong(-1);
 }
 
 /*

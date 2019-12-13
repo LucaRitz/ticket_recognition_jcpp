@@ -9,8 +9,16 @@ extern "C" {
 #endif
 /*
  * Class:     com_bfh_ticket_MetadataReader
+ * Method:    initialize
+ * Signature: (Lcom/bfh/ticket/Algorithm;Lcom/bfh/ticket/MetadataReaderOptions;)J
+ */
+JNIEXPORT jlong JNICALL Java_com_bfh_ticket_MetadataReader_initialize
+  (JNIEnv *, jobject, jobject, jobject);
+
+/*
+ * Class:     com_bfh_ticket_MetadataReader
  * Method:    read
- * Signature: (JLcom/bfh/ticket/Ticket;Lcom/bfh/ticket/TicketImage;)Lcom/bfh/ticket/Metadata;
+ * Signature: (JJLcom/bfh/ticket/TicketImage;)Lcom/bfh/ticket/Metadata;
  */
 JNIEXPORT jobject JNICALL Java_com_bfh_ticket_MetadataReader_read
   (JNIEnv *, jobject, jlong, jlong, jobject);

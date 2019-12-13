@@ -9,11 +9,12 @@ using std::unique_ptr;
 namespace cti {
 
     class ExtractionAlgorithm;
+    class ExtractionOptions;
 
     class EXPORT ExtractionAlgorithms {
     public:
         ExtractionAlgorithms();
-        static unique_ptr<ExtractionAlgorithm> orb(); // TODO: tweak parameter
-        static unique_ptr<ExtractionAlgorithm> sift(); // TODO: tweak parameter
+        static unique_ptr<ExtractionAlgorithm> orb(const ExtractionOptions& options);
+        static unique_ptr<ExtractionAlgorithm> sift(const ExtractionOptions& options);
     };
 }

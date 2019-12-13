@@ -9,11 +9,12 @@ using std::unique_ptr;
 namespace cti {
 
     class MatchingAlgorithm;
+    class MatchingOptions;
 
     class EXPORT MatchingAlgorithms {
     public:
-        MatchingAlgorithms();
-        static unique_ptr<MatchingAlgorithm> orb(); // TODO: tweak parameter
-        static unique_ptr<MatchingAlgorithm> sift(); // TODO: tweak parameter
+        MatchingAlgorithms() = delete;
+        static unique_ptr<MatchingAlgorithm> orb(const MatchingOptions& options);
+        static unique_ptr<MatchingAlgorithm> sift(const MatchingOptions& options);
     };
 }
