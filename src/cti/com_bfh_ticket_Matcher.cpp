@@ -242,9 +242,10 @@ JNIEXPORT jobject JNICALL Java_com_bfh_ticket_Matcher_match
     // Create TicketMatch
     if (optional) {
         jclass javaTicketMatchClass = env->FindClass("com/bfh/ticket/TicketMatch");
-        jmethodID constructor = env->GetMethodID(javaTicketMatchClass, "<init>", "(J)V");
+        jmethodID constructor = env->GetMethodID(javaTicketMatchClass, "<init>", "(JD)V");
         jobject javaTicketMatch = env->NewObject(javaTicketMatchClass, constructor,
-                                                 reinterpret_cast<jlong>(&optional.value().ticket()));
+                                                 reinterpret_cast<jlong>(&optional.value().ticket()),
+                                                 static_cast<jdouble>(optional.value().score()));
         return createOptionalFrom(env, &javaTicketMatch);
     } else {
         return createOptionalFrom(env, nullptr);
