@@ -6,20 +6,64 @@
 using std::string;
 
 namespace cti {
+
+    /**
+     * Image of a concrete ticket to be processed or the template image of a Ticket.
+     */
     class EXPORT TicketImage {
     public:
-        explicit TicketImage(const string&) noexcept(false);
-        TicketImage(const int, const int, const int, const size_t, unsigned char*) noexcept(false);
+
+        /**
+         * Construct a TicketImage from a filepath pointing to an image file.
+         * @param imageFilePath
+         */
+        explicit TicketImage(const string& imageFilePath) noexcept(false);
+
+        /**
+         * Construct a TicketImage from an already loaded image.
+         * @param width image width in pixel.
+         * @param height image height in pixel.
+         * @param bytesPerPixel number of bytes required for each pixel. E.g. RGB requires 3 bytes per pixel, while RGBA requires 4 bytes per pixel.
+         * @param bytesPerLine number of bytes per line (Number of bytes per pixel * Image width).
+         * @param image pointer to the image data.
+         */
+        TicketImage(const int width, const int height, const int bytesPerPixel, const size_t bytesPerLine, unsigned char* image) noexcept(false);
+
         TicketImage(const TicketImage&) = delete;
         TicketImage(TicketImage&&) = delete;
         TicketImage &operator=(const TicketImage&) = delete;
         TicketImage &operator=(TicketImage&&) = delete;
 
+        /**
+         * Image width in pixel.
+         * @return
+         */
         const int width() const;
+
+        /**
+         * Image height in pixel.
+         * @return
+         */
         const int height() const;
+
+        /**
+         * Number of bytes required for each pixel.
+         * E.g. RGB requires 3 bytes per pixel, while RGBA requires 4 bytes per pixel.
+         * @return
+         */
         const int bytesPerPixel() const;
+
+        /**
+         * Number of bytes per line (Number of bytes per pixel * Image width).
+         * @return
+         */
         const size_t bytesPerLine() const;
-        unsigned char *image() const;
+
+        /**
+         * Pointer to the image data.
+         * @return
+         */
+        unsigned char* image() const;
 
     private:
         int _width;

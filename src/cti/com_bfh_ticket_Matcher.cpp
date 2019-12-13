@@ -71,17 +71,17 @@ const Text* textFactory(JNIEnv* env, jobject& javaText) {
     jint javaTopLeftY = env->CallIntMethod(javaTopLeftPoint, yMethod);
     int cppTopLeftX = (int) javaTopLeftX;
     int cppTopLeftY = (int) javaTopLeftY;
-    auto* cppPointTopLeft = new Point(cppTopLeftX, cppTopLeftY);
+    const Point cppPointTopLeft(cppTopLeftX, cppTopLeftY);
 
     // Build CPP Point bottom right
     jint javaBottomRightX = env->CallIntMethod(javaBottomRightPoint, xMethod);
     jint javaBottomRightY = env->CallIntMethod(javaBottomRightPoint, yMethod);
     int cppBottomRightX = (int) javaBottomRightX;
     int cppBottomRightY = (int) javaBottomRightY;
-    auto* cppPointBottomRight = new Point(cppBottomRightX, cppBottomRightY);
+    const Point cppPointBottomRight(cppBottomRightX, cppBottomRightY);
 
     // Build BoundingBox
-    auto* cppBoundingBox = new BoundingBox(*cppPointTopLeft, *cppPointBottomRight);
+    auto* cppBoundingBox = new BoundingBox(cppPointTopLeft, cppPointBottomRight);
 
     // Build Text
     auto* cppText = new Text(cppKey, *cppBoundingBox);

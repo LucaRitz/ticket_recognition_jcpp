@@ -78,11 +78,21 @@ JNIEXPORT jobject JNICALL Java_com_bfh_ticket_MetadataReader_read
     string imagePath = env->GetStringUTFChars(imagePathAsJavaString, nullptr);
     TicketImage ticketImage(imagePath);
 
-    const Metadata* const metadata = reader->read(*ticket, ticketImage);
+    const Metadata metadata = reader->read(*ticket, ticketImage);
+
+    jclass mapClass = env->FindClass("java/util/HashMap");
+    jmethodID mapConstructor = env->GetMethodID(mapClass, "<init>", "()V");
+    jobject map = env->NewObject(mapClass, mapConstructor);
+
+    jmethodID putMethod = env->GetMethodID(mapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+
+    for (auto const& value : metadata.texts()) {
+        env->CallObjectMethod(map, putMethod, env->NewStringUTF(value.first.c_str()), env->NewStringUTF(value.second.c_str()));
+    }
 
     jclass metadataClass = env->FindClass("com/bfh/ticket/Metadata");
-    jmethodID constructor = env->GetMethodID(metadataClass, "<init>", "(J)V");
-    return env->NewObject(metadataClass, constructor, reinterpret_cast<jlong>(metadata));
+    jmethodID metadataConstructor = env->GetMethodID(metadataClass, "<init>", "(Ljava/util/Map;)V");
+    return env->NewObject(metadataClass, metadataConstructor, map);
 }
 
 /*
