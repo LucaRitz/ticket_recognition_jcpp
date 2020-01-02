@@ -33,8 +33,9 @@ namespace cti {
          * Read as much Metadata as possible located on the given TicketImage, defined in the given Ticket.
          * This uses the ExtractionAlgorithm provided at construction of this class.
          * @return a pointer to a dynamically allocated instance of Metadata.
+         * @throw CtiException if the Metadata cannot be read from the given TicketImage.
          */
-        const Metadata read(const Ticket&, const TicketImage&) const;
+        const Metadata read(const Ticket&, const TicketImage&) const noexcept(false);
 
     private:
         const ExtractionAlgorithm& _algorithm;

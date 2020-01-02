@@ -16,6 +16,7 @@ namespace cti {
         /**
          * Construct a TicketImage from a filepath pointing to an image file.
          * @param imageFilePath
+         * @throw CtiException if the image at the given filepath could not be loaded.
          */
         explicit TicketImage(const string& imageFilePath) noexcept(false);
 
@@ -26,6 +27,7 @@ namespace cti {
          * @param bytesPerPixel number of bytes required for each pixel. E.g. RGB requires 3 bytes per pixel, while RGBA requires 4 bytes per pixel.
          * @param bytesPerLine number of bytes per line (Number of bytes per pixel * Image width).
          * @param image pointer to the image data.
+         * @throw CtiException if the provided information is invalid, like width=0.
          */
         TicketImage(const int width, const int height, const int bytesPerPixel, const size_t bytesPerLine, unsigned char* image) noexcept(false);
 
@@ -33,31 +35,32 @@ namespace cti {
         TicketImage(TicketImage&&) = delete;
         TicketImage &operator=(const TicketImage&) = delete;
         TicketImage &operator=(TicketImage&&) = delete;
+        ~TicketImage();
 
         /**
          * Image width in pixel.
          * @return
          */
-        const int width() const;
+        int width() const;
 
         /**
          * Image height in pixel.
          * @return
          */
-        const int height() const;
+        int height() const;
 
         /**
          * Number of bytes required for each pixel.
          * E.g. RGB requires 3 bytes per pixel, while RGBA requires 4 bytes per pixel.
          * @return
          */
-        const int bytesPerPixel() const;
+        int bytesPerPixel() const;
 
         /**
          * Number of bytes per line (Number of bytes per pixel * Image width).
          * @return
          */
-        const size_t bytesPerLine() const;
+        size_t bytesPerLine() const;
 
         /**
          * Pointer to the image data.

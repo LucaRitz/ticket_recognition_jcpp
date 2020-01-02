@@ -14,6 +14,7 @@ namespace cti {
      */
     class EXPORT Text {
     public:
+
         /**
          * Construct a Text.
          * @param key Identification of the Text. Must be unique for a single Ticket.

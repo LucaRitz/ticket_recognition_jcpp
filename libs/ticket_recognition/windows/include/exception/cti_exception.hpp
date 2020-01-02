@@ -5,6 +5,7 @@
 #include <include/dllmacro.h>
 
 namespace cti {
+
     class EXPORT CtiException : public std::exception {
     public:
         explicit CtiException(std::string message);

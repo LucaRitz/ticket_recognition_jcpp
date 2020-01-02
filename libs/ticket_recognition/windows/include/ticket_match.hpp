@@ -17,7 +17,7 @@ namespace cti {
          * @param ticket Reference to the matched Ticket.
          * @param score Score of the TicketMatch. The higher the score, the better the match.
          */
-        explicit TicketMatch(const Ticket& ticket, const double score);
+        explicit TicketMatch(const Ticket& ticket, double score);
 
         TicketMatch(const TicketMatch&);
         TicketMatch(TicketMatch&&);
@@ -34,7 +34,7 @@ namespace cti {
          * Score of the TicketMatch. The higher the score, the better the match.
          * @return
          */
-        const double score() const;
+        double score() const;
 
     private:
         const Ticket& _ticket;

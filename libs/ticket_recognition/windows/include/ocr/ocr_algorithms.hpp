@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include <include/dllmacro.h>
 #include "ocr_algorithm.hpp"
